@@ -1,1 +1,7 @@
-/build/
+.settings/
+bin/
+.classpath
+.project
+.DS_store
+*.idea
+*.iml
