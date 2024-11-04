@@ -113,7 +113,7 @@
 <h3>員工管理</h3>
 
 <ul>
-<!--   <li><a href='addEmp.jsp'>Add</a> a new Emp.</li> -->
+  <li><a href='addUsed.jsp'>Add</a> a new Used.</li>
 </ul>
 
 </body>

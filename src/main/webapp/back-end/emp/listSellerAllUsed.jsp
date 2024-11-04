@@ -134,7 +134,7 @@
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back-end/emp/used.do" style="margin-bottom: 0px;">
 			     <input type="submit" value="§R°£">
-			     <input type="hidden" name="empno"  value="${usedVO.usedNo}">
+			     <input type="hidden" name="usedNo"  value="${usedVO.usedNo}">
 			     <input type="hidden" name="action" value="delete"></FORM>
 			</td>
 					

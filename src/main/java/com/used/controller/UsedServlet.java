@@ -303,81 +303,119 @@ req.setAttribute("usedVO", usedVO); // 含有輸入格式錯誤的empVO物件,�
 				successView.forward(req, res);
 		}
 //===========================================================================================
-//        if ("insert".equals(action)) { // 來自addEmp.jsp的請求  
-//			
-//			List<String> errorMsgs = new LinkedList<String>();
-//			// Store this set in the request scope, in case we need to
-//			// send the ErrorPage view.
-//			req.setAttribute("errorMsgs", errorMsgs);
-//
-//				/***********************1.接收請求參數 - 輸入格式的錯誤處理*************************/
-//String ename = req.getParameter("ename");
-//				String enameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
-//				if (ename == null || ename.trim().length() == 0) {
-//					errorMsgs.add("員工姓名: 請勿空白");
-//				} else if(!ename.trim().matches(enameReg)) { //以下練習正則(規)表示式(regular-expression)
-//					errorMsgs.add("員工姓名: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間");
-//	            }
-//				
-//String job = req.getParameter("job").trim();
-//				if (job == null || job.trim().length() == 0) {
-//					errorMsgs.add("職位請勿空白");
-//				}
-//				
-//				java.sql.Date hiredate = null;
-//				try {
-//hiredate = java.sql.Date.valueOf(req.getParameter("hiredate").trim());
-//				} catch (IllegalArgumentException e) {
-//					hiredate=new java.sql.Date(System.currentTimeMillis());
-//					errorMsgs.add("請輸入日期!");
-//				}
-//				
-//				Double sal = null;
-//				try {
-//sal = Double.valueOf(req.getParameter("sal").trim());
-//				} catch (NumberFormatException e) {
-//					sal = 0.0;
-//					errorMsgs.add("薪水請填數字.");
-//				}
-//				
-//				Double comm = null;
-//				try {
-//comm = Double.valueOf(req.getParameter("comm").trim());
-//				} catch (NumberFormatException e) {
-//					comm = 0.0;
-//					errorMsgs.add("獎金請填數字.");
-//				}
-//				
-//Integer deptno = Integer.valueOf(req.getParameter("deptno").trim());
-//
-//				EmpVO empVO = new EmpVO();
-//				empVO.setEname(ename);
-//				empVO.setJob(job);
-//				empVO.setHiredate(hiredate);
-//				empVO.setSal(sal);
-//				empVO.setComm(comm);
-//				empVO.setDeptno(deptno);
-//
-//				// Send the use back to the form, if there were errors
-//				if (!errorMsgs.isEmpty()) {
-//req.setAttribute("empVO", empVO); // 含有輸入格式錯誤的empVO物件,也存入req
-//					RequestDispatcher failureView = req
-//							.getRequestDispatcher("/emp/addEmp.jsp");
-//					failureView.forward(req, res);
-//					return;
-//				}
-//				
-//				/***************************2.開始新增資料***************************************/
-//				EmpService empSvc = new EmpService();
-//				empVO = empSvc.addEmp(ename, job, hiredate, sal, comm, deptno);
-//				
-//				/***************************3.新增完成,準備轉交(Send the Success view)***********/
-//				String url = "/emp/listAllEmp.jsp";
-//				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
-//				successView.forward(req, res);				
-//		}
-//		
-//		
+        if ("insert".equals(action)) { // 來自addEmp.jsp的請求  
+			
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+
+				/***********************1.接收請求參數 - 輸入格式的錯誤處理*************************/
+			
+			Integer sellerNo = Integer.valueOf(req.getParameter("sellerNo").trim());
+			
+			
+			String usedName = req.getParameter("usedName").trim();
+			String usedNameReg = "^[\\u4e00-\\u9fa5a-zA-Z0-9_\\-!@#$%^&*()\\[\\]{};:'\",.<>/?|+=]{1,30}$";
+			if (usedName == null || usedName.trim().length() == 0) {
+				errorMsgs.add("商品名稱: 請勿空白");
+			} else if(!usedName.matches(usedNameReg)) { //以下練習正則(規)表示式(regular-expression)
+				errorMsgs.add("商品名稱: 只能是中、英文字母、數字和_ , 且長度必需在1到30之間");
+            }
+			
+			Integer classNo = Integer.valueOf(req.getParameter("classNo").trim());
+			if (classNo == null ) {
+				errorMsgs.add("商品類別請勿空白");
+			}	
+			//暫定  尚需加入驗證
+			
+			String usedProDesc = req.getParameter("usedProDesc");
+			String proDescReg = "^[\\u4e00-\\u9fa5a-zA-Z0-9_\\-!@#$%^&*()\\[\\]{};:'\",.<>/?|+=\\s]{1,230}$";
+
+			if (usedProDesc == null || usedProDesc.trim().length() == 0) {
+				errorMsgs.add("商品描述: 請勿空白");
+			} else if(!usedProDesc.trim().matches(proDescReg)) { //以下練習正則(規)表示式(regular-expression)
+				errorMsgs.add("商品描述: 只能是中、英文字母、數字和_ , 且長度必需在1到30之間");
+            }
+			//=============
+			Integer usedPrice = null;
+
+			try {
+			    String priceParam = req.getParameter("usedPrice").trim();
+
+			    if (priceParam.isEmpty()) {
+			        throw new NumberFormatException("Empty input");
+			    }
+
+			    usedPrice = Integer.valueOf(priceParam);
+
+			    if (usedPrice <= 0) {
+			        throw new IllegalArgumentException("Price cannot be zero or negative");
+			    }
+			} catch (NumberFormatException e) {
+			    usedPrice = 1000; // 預設值
+			    errorMsgs.add("商品價格:請填有效的數字.");
+			} catch (IllegalArgumentException e) {
+			    usedPrice = 1000; // 預設值
+			    errorMsgs.add("商品價格:不得為零或負數.");
+			}
+
+			
+
+			Integer usedNewness = null;
+			usedNewness =Integer.valueOf(req.getParameter("usedNewness"));
+			
+			
+			Integer usedStocks = null;
+			String usedStocksReg = "^[0-9]{1,10}$";
+			String usedStocksParam = req.getParameter("usedStocks").trim();
+			if (usedStocksParam == null || req.getParameter("usedStocks").trim().length() == 0) {
+				errorMsgs.add("商品庫存數量: 請勿空白");
+			}else if(!usedStocksParam.matches(usedStocksReg)) { //以下練習正則(規)表示式(regular-expression)
+				errorMsgs.add("商品庫存數量: 只能是數字 ");
+            }else{
+            	usedStocks =Integer.valueOf(usedStocksParam);
+            }
+			
+			
+			Integer usedState = null;		  
+			usedState = Integer.valueOf(req.getParameter("usedState"));
+			 
+
+			
+			
+
+
+			UsedVO usedVO = new UsedVO();
+			usedVO.setClassNo(classNo);
+			usedVO.setSellerNo(sellerNo);
+			usedVO.setUsedName(usedName);
+			usedVO.setUsedProDesc(usedProDesc);
+			usedVO.setUsedNewness(usedNewness);
+			usedVO.setUsedPrice(usedPrice);
+			usedVO.setUsedStocks(usedStocks);
+			usedVO.setUsedState(usedState);
+			
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					req.setAttribute("usedVO", usedVO); // 含有輸入格式錯誤的empVO物件,也存入req
+					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/emp/addEmp.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				
+				/***************************2.開始新增資料***************************************/
+				UsedService usedSvc = new UsedService();
+				usedVO = usedSvc.addUsed(classNo,sellerNo,usedName,usedProDesc,usedNewness,usedPrice,usedStocks, usedState);
+				
+				/***************************3.新增完成,準備轉交(Send the Success view)***********/
+				String url = "/back-end/emp/listOneUsed.jsp";
+				req.setAttribute("usedVO", usedVO);
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
+				successView.forward(req, res);				
+		}
+		
+//========================================================================================	
 		if ("delete".equals(action)) { // 來自listAllEmp.jsp
 
 			List<String> errorMsgs = new LinkedList<String>();

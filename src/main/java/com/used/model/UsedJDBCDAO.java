@@ -1,11 +1,11 @@
 package com.used.model;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class UsedJDBCDAO implements UsedDAO_interface {
 		"UPDATE Used SET classNo = ?, sellerNo = ?, usedName = ?, usedProDesc = ?, usedNewness = ?, usedPrice = ?, usedStocks = ?, usedState = ?  WHERE usedNo = ?";
 	//新增一筆商品
 	@Override
-	public void insert(UsedVO UsedVO) {
+	public int insert(UsedVO UsedVO) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -38,7 +38,7 @@ public class UsedJDBCDAO implements UsedDAO_interface {
 
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
-			pstmt = con.prepareStatement(INSERT_STMT);
+			pstmt = con.prepareStatement(INSERT_STMT,  Statement.RETURN_GENERATED_KEYS);
 			//輸入二手商品資料
 			pstmt.setInt(1, UsedVO.getClassNo());
 			pstmt.setInt(2, UsedVO.getSellerNo());
@@ -53,17 +53,17 @@ public class UsedJDBCDAO implements UsedDAO_interface {
 			//二手商品資料輸入完畢
 
 			//取得輸入後回傳之流水號
-//			ResultSet rs =pstmt.getGeneratedKeys();
-//			int usedNo =  0;
-//			if (rs.next()){
-//				usedNo = rs.getInt(1);
-//			}
+			ResultSet rs =pstmt.getGeneratedKeys();
+			int usedNo =  0;
+			if (rs.next()){
+				usedNo = rs.getInt(1);
+			}
 //			//取得流水號後 UsedPicDAO向二手照片表格輸入圖片
 //			picpstmt = con.prepareStatement(INSERT_PIC_STMT);
 //			picpstmt.setInt(1,usedNo);
 //			picpstmt.setBytes(2, UsedPicNoVO.getUsedPics());
 			
-			
+			return usedNo;
 			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. "
@@ -411,21 +411,6 @@ public class UsedJDBCDAO implements UsedDAO_interface {
 		UsedVO usedVO1 = new UsedVO();
 
 		// 新增 v
-//		usedVO1.setClassNo(121);
-//		usedVO1.setSellerNo(211);
-//		usedVO1.setUsedName("111");
-//		usedVO1.setUsedProDesc("111");
-//		usedVO1.setUsedNewness(1);
-//		usedVO1.setUsedPrice(10);
-//		usedVO1.setUsedStocks(10);
-//		usedVO1.setUsedState(1);
-//		dao.insert(usedVO1);
-		
-		
-		
-
-		// 修改 v
-		
 		usedVO1.setClassNo(121);
 		usedVO1.setSellerNo(211);
 		usedVO1.setUsedName("111");
@@ -434,9 +419,24 @@ public class UsedJDBCDAO implements UsedDAO_interface {
 		usedVO1.setUsedPrice(10);
 		usedVO1.setUsedStocks(10);
 		usedVO1.setUsedState(1);
-		usedVO1.setUsedNo(1);
-	
-		dao.update(usedVO1);
+		Integer newUsedNo=dao.insert(usedVO1);
+		System.out.println(newUsedNo);
+		
+		
+
+		// 修改 v
+//		
+//		usedVO1.setClassNo(121);
+//		usedVO1.setSellerNo(211);
+//		usedVO1.setUsedName("111");
+//		usedVO1.setUsedProDesc("111");
+//		usedVO1.setUsedNewness(1);
+//		usedVO1.setUsedPrice(10);
+//		usedVO1.setUsedStocks(10);
+//		usedVO1.setUsedState(1);
+//		usedVO1.setUsedNo(1);
+//	
+//		dao.update(usedVO1);
 //
 //		// 刪除 v
 //		dao.delete(1);

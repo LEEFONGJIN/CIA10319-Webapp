@@ -107,6 +107,19 @@
 			</td>
 			
 			<td>${usedVO.usedState}</td>
+			<td>
+			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back-end/emp/used.do" style="margin-bottom: 0px;">
+			     <input type="submit" value="­×§ï">
+			     <input type="hidden" name="usedNo"  value="${usedVO.usedNo}">
+			     <input type="hidden" name="sellerNo"  value="${usedVO.sellerNo}">
+			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
+			</td>
+			<td>
+			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back-end/emp/used.do" style="margin-bottom: 0px;">
+			     <input type="submit" value="§R°£">
+			     <input type="hidden" name="usedNo"  value="${usedVO.usedNo}">
+			     <input type="hidden" name="action" value="delete"></FORM>
+			</td>
 			
 		</tr>
 	</c:forEach>

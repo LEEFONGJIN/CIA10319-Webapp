@@ -73,44 +73,52 @@
 	
 	
 	<tr>
-		<td>商品類別編號:</td>
-		<td><input type="TEXT" name="classNo" value="<%= (usedVO==null)? "類別編號" : usedVO.getClassNo()%>" size="45"/></td>
-	</tr>
-	<tr>
-		<td>賣家編號:</td>
-		<td><input type="TEXT" name="sellerNo" value="<%= (usedVO==null)? " 賣家編號" : usedVO.getSellerNo()%>" size="45"/></td>
-	</tr>
-	<tr>
-		<td>二手商品名稱:</td>
-		<td><input type="TEXT" name="usedName" value="<%= (usedVO==null)? "商品名稱" : usedVO.getUsedName()%>" size="45"/></td>
-	</tr>
-	<tr>
-		<td>二手商品描述:</td>
-		<td> 
-    <textarea id="usedProDesc" name="usedProDesc"  rows="10" cols="50" maxlength="200" style="width:300"><%= (usedVO==null)? "請輸入二手商品描述" : usedVO.getUsedProDesc()%>
-    </textarea><br>
-    
-    
-		
-		</td>
-	</tr>
-	
-	<tr>
-		<td>新舊度<br>(0:近全新, 1:7成新, 2:5成新, 3:3成新):</td>
-		<td><input type="TEXT" name="usedNewness"   value="<%= (usedVO==null)? "請輸入商品新舊程度" : usedVO.getUsedNewness()%>" size="45"/></td>
-	</tr>
-	<tr>
-		<td>價格:</td>
-		<td><input type="TEXT" name="usedPrice"  value="<%= (usedVO==null)? "1000" : usedVO.getUsedPrice()%>" size="45"/></td>
-	</tr>
-	<tr>
-		<td>庫存量:</td>
-		<td><input type="TEXT" name="usedStocks"  value="<%= (usedVO==null)? "10" : usedVO.getUsedStocks()%>" size="45"/></td>
-	</tr>
-	<tr>
-		<td>二手商品狀態 (0:未上架, 1:已上架)</td>
-		<td><input type="TEXT" name="usedState"  value="<%= (usedVO==null)? "1" : usedVO.getUsedState()%>" size="45"/></td>
-	</tr>
+    <td>二手賣家編號:<font color="red"><b>*</b></font></td>
+    <td><input type="TEXT" name="sellerNo" value="${usedVO.sellerNo}"/></td>
+</tr>
+<tr>
+    <td>二手商品名稱:</td>
+    <td><input type="TEXT" name="usedName" value="${usedVO.usedName}" size="45"/></td>
+</tr>
+<tr>
+    <td>二手類別編號:</td>
+    <td><input type="TEXT" name="classNo" value="${usedVO.classNo}" size="45"/></td>
+</tr>
+<tr>
+    <td>二手商品描述:</td>
+    <td><textarea name="usedProDesc" rows="4" cols="45" maxlength="230" style="resize: none;">${usedVO.usedProDesc}</textarea></td>
+</tr>
+<tr>
+    <td>商品新舊程度: (0: 近全新, 1: 7成新, 2: 5成新, 3: 3成新)</td>
+    <td>
+        <select name="usedNewness">
+            
+            <option value="0" ${usedVO.usedNewness == 0 ? 'selected' : ''}>近全新</option>
+            <option value="1" ${usedVO.usedNewness == 1 ? 'selected' : ''}>7成新</option>
+            <option value="2" ${usedVO.usedNewness == 2 ? 'selected' : ''}>5成新</option>
+            <option value="3" ${usedVO.usedNewness == 3 ? 'selected' : ''}>3成新</option>
+        </select>
+    </td>
+</tr>
+<tr>
+    <td>二手商品單價:(>0)</td>
+    <td><input type="TEXT" name="usedPrice" value="${usedVO.usedPrice}" size="45"/></td>
+</tr>
+<tr>
+    <td>商品庫存數量:(>0)</td>
+    <td><input type="TEXT" name="usedStocks" value="${usedVO.usedStocks}" size="45"/></td>
+</tr>
+<tr>
+    <td>商品狀態: (0: 未上架, 1: 上架)</td>
+    <td>
+        <select name="usedState">
+            
+            <option value="0" ${usedVO.usedState == 0 ? 'selected' : ''}>未上架</option>
+            <option value="1" ${usedVO.usedState == 1 ? 'selected' : ''}>上架</option>
+        </select>
+    </td>
+</tr>
+
 
 <%-- 	<jsp:useBean id="deptSvc" scope="page" class="com.dept.model.DeptService" /> --%>
 <!-- 	<tr> -->

@@ -24,8 +24,9 @@ public class UsedService {
 		usedVO.setUsedStocks(usedStocks);
 		usedVO.setUsedState(usedState);
 
-		dao.insert(usedVO);
-
+		Integer usedNo=dao.insert(usedVO);//回傳AI的商品編號以利之後使用
+		
+		usedVO.setUsedNo(usedNo);
 		return usedVO;
 	}
 
