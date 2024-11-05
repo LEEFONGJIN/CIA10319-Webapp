@@ -200,7 +200,7 @@ public class UsedServlet extends HttpServlet {
 				
 				
 				String usedName = req.getParameter("usedName").trim();
-				String usedNameReg = "^[\\u4e00-\\u9fa5\\u3105-\\u312D\\u02B0-\\u02FFa-zA-Z0-9_\\-!，。、；;@#$%^&*()\\[\\]{};:'\",.<>/?|+=]{1,30}$";
+				String usedNameReg = "^[\\u4e00-\\u9fa5\\u3105-\\u312D\\u02B0-\\u02FFa-zA-Z0-9_\\-~`!，。、；;@#$%^&*()\\[\\]{};:'\",.<>/?|+=]{1,30}$";
 
 				if (usedName == null || usedName.trim().length() == 0) {
 					errorMsgs.add("商品名稱: 請勿空白");
@@ -215,7 +215,7 @@ public class UsedServlet extends HttpServlet {
 				//暫定  尚需加入驗證
 				
 				String usedProDesc = req.getParameter("usedProDesc");
-				String proDescReg = "^[\\u4e00-\\u9fa5\\u3105-\\u312D\\u02B0-\\u02FFa-zA-Z0-9_\\-!，。、；;@#$%^&*()\\[\\]{};:'\",.<>/?|+=]{1,200}$";
+				String proDescReg = "^[\\u4e00-\\u9fa5\\u3105-\\u312D\\u02B0-\\u02FFa-zA-Z0-9_\\-~`!，。、；;@#$%^&*()\\[\\]{};:'\",.<>/?|+=]{1,200}$";
 
 				if (usedProDesc == null || usedProDesc.trim().length() == 0) {
 					errorMsgs.add("商品描述: 請勿空白");
@@ -317,7 +317,8 @@ req.setAttribute("usedVO", usedVO); // 含有輸入格式錯誤的empVO物件,�
 			
 			
 			String usedName = req.getParameter("usedName").trim();
-			String usedNameReg = "^[\\u4e00-\\u9fa5a-zA-Z0-9_\\-!@#$%^&*()\\[\\]{};:'\",.<>/?|+=]{1,30}$";
+			String usedNameReg = "^[\\p{IsHan}\\p{L}\\p{N}\\p{Punct}\\p{S}]{1,30}$";
+
 			if (usedName == null || usedName.trim().length() == 0) {
 				errorMsgs.add("商品名稱: 請勿空白");
 			} else if(!usedName.matches(usedNameReg)) { //以下練習正則(規)表示式(regular-expression)
@@ -331,12 +332,13 @@ req.setAttribute("usedVO", usedVO); // 含有輸入格式錯誤的empVO物件,�
 			//暫定  尚需加入驗證
 			
 			String usedProDesc = req.getParameter("usedProDesc");
-			String proDescReg = "^[\\u4e00-\\u9fa5a-zA-Z0-9_\\-!@#$%^&*()\\[\\]{};:'\",.<>/?|+=\\s]{1,230}$";
+			
+			String proDescReg = "^[\\p{IsHan}\\p{L}\\p{N}\\p{Punct}\\p{S}]{1,200}$";
 
 			if (usedProDesc == null || usedProDesc.trim().length() == 0) {
 				errorMsgs.add("商品描述: 請勿空白");
 			} else if(!usedProDesc.trim().matches(proDescReg)) { //以下練習正則(規)表示式(regular-expression)
-				errorMsgs.add("商品描述: 只能是中、英文字母、數字和_ , 且長度必需在1到30之間");
+				errorMsgs.add("商品描述: 只能是中、英文字母、數字和_ , 且長度必需在1到200之間");
             }
 			//=============
 			Integer usedPrice = null;
@@ -408,7 +410,8 @@ req.setAttribute("usedVO", usedVO); // 含有輸入格式錯誤的empVO物件,�
 				/***************************2.開始新增資料***************************************/
 				UsedService usedSvc = new UsedService();
 				usedVO = usedSvc.addUsed(classNo,sellerNo,usedName,usedProDesc,usedNewness,usedPrice,usedStocks, usedState);
-				
+				Integer usedNo = usedVO.getUsedNo();
+				usedVO = usedSvc.getOneUsed(sellerNo, usedNo);
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
 				String url = "/back-end/emp/listOneUsed.jsp";
 				req.setAttribute("usedVO", usedVO);

@@ -54,7 +54,7 @@ public class UsedService {
 	}
 
 	public UsedVO getOneUsed(Integer sellerNo,Integer usedNo) {
-		return dao.findByPrimaryKey(sellerNo, usedNo);
+		return dao.findBySellerNoUsedNo(sellerNo, usedNo);
 	}
 
 	public List<UsedVO> getAll(Integer sellerNo) {

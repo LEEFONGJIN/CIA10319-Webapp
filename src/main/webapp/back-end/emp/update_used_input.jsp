@@ -92,7 +92,7 @@
 	
 	</tr>
 	<tr>
-    <td>商品新舊程度: (0: 近全新, 1: 7成新, 2: 5成新, 3: 3成新)</td>
+    <td>商品新舊程度:</td>
     <td>
         <select name="usedNewness">
             <option value="0" <%= usedVO.getUsedNewness() == 0 ? "selected" : "" %>>近全新</option>

@@ -33,7 +33,7 @@ public class UsedJDBCDAO implements UsedDAO_interface {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		
+		ResultSet rs = null;
 		try {
 
 			Class.forName(driver);
@@ -53,7 +53,7 @@ public class UsedJDBCDAO implements UsedDAO_interface {
 			//二手商品資料輸入完畢
 
 			//取得輸入後回傳之流水號
-			ResultSet rs =pstmt.getGeneratedKeys();
+			 rs =pstmt.getGeneratedKeys();
 			int usedNo =  0;
 			if (rs.next()){
 				usedNo = rs.getInt(1);
@@ -74,6 +74,15 @@ public class UsedJDBCDAO implements UsedDAO_interface {
 					+ se.getMessage());
 			// Clean up JDBC resources
 		} finally {
+			
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+					
 			if (pstmt != null) {
 				try {
 					pstmt.close();
@@ -190,7 +199,7 @@ public class UsedJDBCDAO implements UsedDAO_interface {
 	}
 	//找特定二手商品
 	@Override
-	public UsedVO findByPrimaryKey(Integer sellerNo,Integer usedNo) {
+	public UsedVO findBySellerNoUsedNo(Integer sellerNo,Integer usedNo) {
 
 		UsedVO UsedVO = null;
 		Connection con = null;
