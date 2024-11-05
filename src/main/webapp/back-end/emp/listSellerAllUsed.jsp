@@ -63,7 +63,7 @@
 </head>
 <body bgcolor='white'>
 
-<h4>此頁練習採用 EL 的寫法取值:</h4>
+
 <table id="table-1">
 	<tr><td>
 		 <h3>賣家所有二手商品資料 - listSellerAllUsed.jsp</h3>

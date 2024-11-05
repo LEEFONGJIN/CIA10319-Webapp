@@ -35,7 +35,7 @@
 
 <p>This is the Home page for IBM Used: Home</p>
 
-<h3>資料查詢:</h3>
+<h3>二手商品資料查詢:</h3>
 	
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
@@ -110,7 +110,7 @@
 </ul>
 
 
-<h3>員工管理</h3>
+<h3>二手商品管理</h3>
 
 <ul>
   <li><a href='addUsed.jsp'>Add</a> a new Used.</li>
