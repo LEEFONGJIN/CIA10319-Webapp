@@ -128,7 +128,7 @@
 			     <input type="submit" value="н╫зя">
 			     
 			     <input type="hidden" name="sellerNo"  value="${usedVO.sellerNo}">
-			     <input type="hidden" name="usedno"  value="${usedVO.usedNo}">
+			     <input type="hidden" name="usedNo"  value="${usedVO.usedNo}">
 			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 			</td>
 			<td>
