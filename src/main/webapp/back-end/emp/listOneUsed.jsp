@@ -109,7 +109,11 @@
 			    </c:choose>
 			</td>
 			
-			<td><%=usedVO.getUsedState()%></td>
+			<td>
+			    <%= usedVO.getUsedState() == 0 ? "未上架" : usedVO.getUsedState() == 1 ? "上架" : usedVO.getUsedState() == 2 ? "刪除" : "" %>
+			</td>
+
+
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back-end/emp/used.do" style="margin-bottom: 0px;">
 			     <input type="submit" value="修改">

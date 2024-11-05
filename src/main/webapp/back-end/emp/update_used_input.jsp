@@ -112,7 +112,7 @@
 		<td><input type="TEXT" name="usedStocks"  value="<%=usedVO.getUsedStocks()%>" size="45"/></td>
 	</tr>
 	<tr>
-    <td>商品狀態: (0: 未上架, 1: 上架)</td>
+    <td>商品狀態: </td>
     <td>
         <select name="usedState">
             <option value="0" <%= usedVO.getUsedState() == 0 ? "selected" : "" %>>未上架</option>

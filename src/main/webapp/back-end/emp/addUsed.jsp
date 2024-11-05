@@ -109,7 +109,7 @@
     <td><input type="TEXT" name="usedStocks" value="${usedVO.usedStocks}" size="45"/></td>
 </tr>
 <tr>
-    <td>商品狀態: (0: 未上架, 1: 上架)</td>
+    <td>商品狀態: </td>
     <td>
         <select name="usedState">
             

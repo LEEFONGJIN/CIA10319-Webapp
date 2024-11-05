@@ -106,7 +106,15 @@
 				
 			</td>
 			
-			<td>${usedVO.usedState}</td>
+			<td>
+			    <c:choose>
+			        <c:when test="${usedVO.usedState == 0}">未上架</c:when>
+			        <c:when test="${usedVO.usedState == 1}">上架</c:when>
+			        <c:when test="${usedVO.usedState == 2}">刪除</c:when>
+			    </c:choose>
+			</td>
+
+
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back-end/emp/used.do" style="margin-bottom: 0px;">
 			     <input type="submit" value="修改">
