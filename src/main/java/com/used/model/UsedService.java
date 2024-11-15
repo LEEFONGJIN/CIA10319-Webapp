@@ -60,7 +60,11 @@ public class UsedService {
 	public List<UsedVO> getAll(Integer sellerNo) {
 		return dao.getAll(sellerNo);
 	}
-	public List<UsedVO> getAll() {
+	public List<UsedVO> getAll() { //管理員查找全部商品包含刪除或未上架
 		return dao.getAll();
 	}
+	public List<UsedVO> getAll_Member(){
+		return dao.getAll_Member();
+	}
+	
 }

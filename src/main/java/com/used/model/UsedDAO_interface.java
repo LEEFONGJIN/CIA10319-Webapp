@@ -9,6 +9,7 @@ public interface UsedDAO_interface {
           public UsedVO findBySellerNoUsedNo(Integer sellerNo,Integer usedNo);
           public List<UsedVO> getAll(Integer sellerNo);
           public List<UsedVO> getAll();
+          public List<UsedVO> getAll_Member();
           //萬用複合查詢(傳入參數型態Map)(回傳 List)
 //        public List<UsedVO> getAll(Map<String, String[]> map); 
 }

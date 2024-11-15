@@ -3,29 +3,19 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.used.model.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <%-- 此頁練習採用 EL 的寫法取值 --%>
 
 <%
- 
-// pageContext.setAttribute("list",list);
-// 	pageContext.setAttribute("sellerNo",sellerNo);
-// 	pageContext.getAttribute("list");
-// 	String sellerNoPara = request.getParameter("sellerNo");
-// 	int sellerNo = Integer.valueOf(sellerNoPara);
-
-// List<UsedVO> list = (List<UsedVO>)request.getAttribute("list"); //EmpServlet.java(Controller), 存入req的list UsedVO物件
- 	 UsedService usedSvc = new UsedService();
-     List<UsedVO> list = usedSvc.getAll((Integer)session.getAttribute("sellerNo"));
-      pageContext.setAttribute("list",list);
-        
-        
- 
+    UsedService usedSvc = new UsedService();
+    List<UsedVO> list = usedSvc.getAll_Member();
+    pageContext.setAttribute("list",list);
 %>
 
 
 <html>
 <head>
-<title>賣家所有二手商品資料 - listSellerAllUsed.jsp</title>
+<title>所有二手商品資料 - MemberlistAllUsed.jsp</title>
 
 <style>
   table#table-1 {
@@ -66,8 +56,8 @@
 
 <table id="table-1">
 	<tr><td>
-		 <h3>賣家所有二手商品資料 - listSellerAllUsed.jsp</h3>
-		 <h4><a href="select_page.jsp"><img src="<%= request.getContextPath()%>/back-end/images/tomcat.png" width="100"  border="0">回首頁</a></h4>
+		 <h3>所有二手商品資料 - listAllUsed.jsp</h3>
+		 <h4><a href="select_page.jsp"><img src="<%= request.getContextPath()%>/back-end/images/back1.gif" width="100" height="32" border="0">回首頁</a></h4>
 	</td></tr>
 </table>
 
@@ -84,8 +74,6 @@
 		<th>二手商品上架時間</th>
 		<th>二手商品下架時間</th>
 		<th>二手商品狀態</th>
-		<th>修改</th>
-		<th>刪除</th>
 	</tr>
 	<%@ include file="page1.file" %> 
 	<c:forEach var="usedVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
@@ -96,7 +84,6 @@
 			<td>${usedVO.sellerNo}</td>
 			<td>${usedVO.usedName}</td>
 			<td>${usedVO.usedProDesc}</td>
-			
 			<td>
 			    <c:choose>
 			        <c:when test="${usedVO.usedNewness == 0}">近全新</c:when>
@@ -107,18 +94,15 @@
 			    </c:choose>
 			</td>
 
- 
 			<td>${usedVO.usedPrice}</td>
 			<td>${usedVO.usedStocks}</td>
 			
-			<!-- 格式化二手商品上架時間 -->
 			<!-- 格式化二手商品上架時間 -->
 			<td><fmt:formatDate value="${usedVO.usedLaunchedTime}" pattern="yyyy-MM-dd" /></td>
 			
 			<!-- 格式化二手商品下架時間 -->
 			<td>
 				<fmt:formatDate value="${usedVO.soldTime}" pattern="yyyy-MM-dd" />
-				<%-- 檢查 soldTime 是否為空 --%>
 				
 			</td>
 			
@@ -126,7 +110,7 @@
 			    <c:choose>
 			        <c:when test="${usedVO.usedState == 0}">未上架</c:when>
 			        <c:when test="${usedVO.usedState == 1}">上架</c:when>
-			        
+
 			    </c:choose>
 			</td>
 
@@ -134,9 +118,8 @@
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back-end/emp/used.do" style="margin-bottom: 0px;">
 			     <input type="submit" value="修改">
-			     
-			     <input type="hidden" name="sellerNo"  value="${usedVO.sellerNo}">
 			     <input type="hidden" name="usedNo"  value="${usedVO.usedNo}">
+			     <input type="hidden" name="sellerNo"  value="${usedVO.sellerNo}">
 			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 			</td>
 			<td>
@@ -145,7 +128,7 @@
 			     <input type="hidden" name="usedNo"  value="${usedVO.usedNo}">
 			     <input type="hidden" name="action" value="delete"></FORM>
 			</td>
-					
+			
 		</tr>
 	</c:forEach>
 </table>

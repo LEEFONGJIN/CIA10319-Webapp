@@ -1,4 +1,4 @@
-package com.used.model;
+package com.usedpic.model;
 
 import java.io.Serializable;
 
@@ -7,9 +7,9 @@ public class UsedPicNoVO implements Serializable{
 
 	private Integer usedPicNo;//二手照片明細編號  AI PK not null
 	
-	private Integer usedNo; // 二手商品編號  FK NOT NULL
-
-	private byte[] usedPics; //二手商品照片
+	private Integer usedNo; // 二手商品編號  (從二手商品表單拿取)fk not null
+	
+	private byte[] usedPics; //二手商品照片longblob 可以null
 	
 	public UsedPicNoVO() {
 		super();

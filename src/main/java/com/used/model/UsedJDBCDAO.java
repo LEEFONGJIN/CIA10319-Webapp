@@ -18,11 +18,13 @@ public class UsedJDBCDAO implements UsedDAO_interface {
 	private static final String INSERT_STMT = 
 		"INSERT INTO Used (classNo, sellerNo, usedName, usedProDesc, usedNewness, usedPrice, usedStocks, usedState) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String GET_SELLERNO_ALL_STMT = 
-			"SELECT * FROM Used   WHERE sellerNo = ? ORDER BY usedNo ASC ";
+		"SELECT * FROM Used WHERE sellerNo = ? AND usedState != 2 ORDER BY usedNo ASC";
 	private static final String GET_ALL_STMT = 
-			"SELECT * FROM Used   ORDER BY usedNo ASC ";
+		"SELECT * FROM Used   ORDER BY usedNo ASC ";
+	private static final String GET_ALL_STMT_Member = 
+		"SELECT * FROM Used  WHERE usedState = 1  ORDER BY usedNo ASC ";
 	private static final String GET_ONE_STMT = 
-		"SELECT * FROM Used   WHERE sellerNo = ? AND usedNo = ?";
+		"SELECT * FROM Used   WHERE sellerNo = ? AND usedNo = ? ";
 	private static final String DELETE = 
 		"UPDATE used set usedState =2 where usedNo = ?";
 	private static final String UPDATE = 
@@ -357,6 +359,77 @@ public class UsedJDBCDAO implements UsedDAO_interface {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_ALL_STMT);
+			
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+//				// UsedVO 也稱為 Domain objects
+				UsedVO = new UsedVO();
+				
+				UsedVO.setUsedNo(rs.getInt("usedNo"));
+				UsedVO.setClassNo(rs.getInt("classNo"));
+				UsedVO.setSellerNo(rs.getInt("sellerNo"));
+				UsedVO.setUsedName(rs.getString("usedName"));
+				UsedVO.setUsedProDesc(rs.getString("usedProDesc"));
+				UsedVO.setUsedNewness(rs.getInt("usedNewness"));
+				UsedVO.setUsedPrice(rs.getInt("usedPrice"));
+				UsedVO.setUsedStocks(rs.getInt("usedStocks"));
+				UsedVO.setUsedLaunchedTime(rs.getTimestamp("usedLaunchedTime"));
+				UsedVO.setSoldTime(rs.getTimestamp("soldTime"));
+				UsedVO.setUsedState(rs.getInt("usedState"));
+				list.add(UsedVO); // Store the row in the list
+			}
+			
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. "
+					+ e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+	//會員查找二手商品(不會搜尋到刪除以及下架的商品)
+	@Override
+	public List<UsedVO> getAll_Member() {
+		List<UsedVO> list = new ArrayList<UsedVO>();
+		UsedVO UsedVO = null;
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_ALL_STMT_Member);
 			
 			
 			rs = pstmt.executeQuery();
